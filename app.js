@@ -50,5 +50,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(3000, () => {
-    console.log('服务器已经开启：localhost:3000')
+    console.log('服务器已经开启：http://localhost:3000')
 })
