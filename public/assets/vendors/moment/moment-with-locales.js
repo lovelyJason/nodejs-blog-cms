@@ -6274,7 +6274,7 @@ hooks.defineLocale('de-at', {
 //! locale : German (Switzerland) [de-ch]
 //! author : sschueller : https://github.com/sschueller
 
-// based on: https://www.bk.admin.ch/dokumentation/sprachen/04915/05016/index.html?lang=de#
+// based on: https://www.bk.admin.ch/dokumentation/sprachen/04915/05016/index?lang=de#
 
 function processRelativeTime$1(number, withoutSuffix, key, isFuture) {
     var format = {

@@ -2,6 +2,7 @@
 const path = require('path')
 const userdb = require('../model/userdb.js')
 const formidable = require('formidable')
+const { isTestAccount } = require('../utils/index.js')
 
 // 处理所有与 用户 相关的逻辑
 module.exports = {
@@ -10,17 +11,22 @@ module.exports = {
         if (isBroLogin(req, res)) {
             return
         }
-        // 将所有的用户数据查询出来
-        userdb.query('SELECT * FROM users', (err, result) => {
-            if (err) {
-                return res.send('<script>alert("' + err.message + '")</script>')
-            }
-            // 渲染页面, 渲染数据
-            // 还要将昵称也渲染到页面上
-            let nickname = req.session.user.nickname
-            let avatar = req.session.user.avatar
-            res.render('users', { result: result, nickname, avatar })
-        })
+        if (isTestAccount(req)) {
+            res.render('users', { result: [{ id: '2', email: '2@qdovo.com', slug: '2', nickname: '2' }, { id: '3', email: '3@qdovo.com', slug: '3', nickname: '3' }], nickname: 'jason', avatar: 'https://cdn.qdovo.com/img/timg.jpeg' })
+        } else {
+            // 将所有的用户数据查询出来
+            userdb.query('SELECT * FROM users', (err, result) => {
+                if (err) {
+                    return res.send('<script>alert("' + err.message + '")</script>')
+                }
+                // 渲染页面, 渲染数据
+                // 还要将昵称也渲染到页面上
+                let nickname = req.session.user.nickname
+                let avatar = req.session.user.avatar
+                res.render('users', { result: result, nickname, avatar })
+            })
+
+        }
     },
     // 添加用户数据
     addUser: (req, res) => {
@@ -246,7 +252,7 @@ module.exports = {
                         res.send({
                             status: 200,
                             msg: '密码更新成功'
-                        }) 
+                        })
                     }
                 })
             } else {
